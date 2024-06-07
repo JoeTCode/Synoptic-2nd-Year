@@ -1,7 +1,7 @@
 version: "3"
 services:
   node:
-    container_name: pms-node
+    container_name: synoptic-node
     build: node/
     volumes:
       - ./node:/node
@@ -14,13 +14,13 @@ services:
     depends_on:
       - db
   db:
-    container_name: pms-db
+    container_name: synoptic-db
     image: postgres
     restart: always
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: pms
+      POSTGRES_DB: synoptic
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:
