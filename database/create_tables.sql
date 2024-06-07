@@ -2,3 +2,8 @@ CREATE TABLE IF NOT EXISTS test (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100)
 );
+CREATE TABLE IF NOT EXISTS admins (
+    admin_id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    password VARCHAR(100)
+);

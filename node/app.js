@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const passport = require('passport');
 // Define your routes here
 // For example:
 // var indexRouter = require('./routes/index');
@@ -26,12 +27,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
+const session = require('express-session');
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.authenticate('session'));
+app.use(passport.initialize());
+
+
+
 var indexRouter = require('./routes/index');
 var testRouter = require('./routes/test');
+var loginRouter = require('./routes/login');
+var signupRouter = require('./routes/signup');
 
 app.use('/', indexRouter);
 app.use('/test', testRouter);
-
+app.use('/login', loginRouter);
+app.use('/signup', signupRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,5 +63,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
