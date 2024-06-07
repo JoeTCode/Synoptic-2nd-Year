@@ -28,9 +28,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var indexRouter = require('./routes/index');
 var testRouter = require('./routes/test');
+var alertsRouter = require('./routes/alerts');
+var manageUsersRouter = require('./routes/manageUsers');
+var sendMessageRouter = require('./routes/sendMessage');
+var settingsRouter = require('./routes/settings');
+var weatherRouter = require('./routes/weather');
 
 app.use('/', indexRouter);
 app.use('/test', testRouter);
+app.use('/alerts', alertsRouter);
+app.use('/manage-users', manageUsersRouter);
+app.use('/send-message', sendMessageRouter);
+app.use('/settings', settingsRouter);
+app.use('/weather', weatherRouter);
+
 
 
 // catch 404 and forward to error handler
