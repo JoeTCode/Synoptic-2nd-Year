@@ -25,9 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Define your routes here
 // For example:
 // var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+// var testRouter = require('./routes/test');
 // app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+// app.use('/test', testRouter);
 
 // Routers
 var indexRouter = require('./routes/index');
