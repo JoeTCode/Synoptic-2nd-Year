@@ -5,12 +5,14 @@ services:
     build: node/
     volumes:
       - ./node:/node
-      - /node/node_modules # Remove this if you have pure JS dependencies
+      - /node/node_modules
     env_file:
       - .env
     ports:
       - "8080:8080"
     command: sh -c "npm install && npm run start.dev"
+    depends_on:
+      - db
   db:
     container_name: pms-db
     image: postgres
@@ -18,8 +20,11 @@ services:
     ports:
       - "5432:5432"
     environment:
+      POSTGRES_DB: pms
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:
-      - db-data:/db-data
+      - db-data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d/
 volumes:
   db-data:
