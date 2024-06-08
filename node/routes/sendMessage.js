@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const { checkAuthenticated } = require('../passport-config');
 
-/* GET send message page. */
-router.get('/', function(req, res, next) { 
+/* GET Send Message page. */
+router.get('/', checkAuthenticated, function(req, res, next) { 
     res.render('sendMessage', { title: 'Send Message' });
-    }
-);
+});
 
 module.exports = router;

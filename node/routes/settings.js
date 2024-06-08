@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const { checkAuthenticated } = require('../passport-config');
 
-/* GET settings page. */
-router.get('/', function(req, res, next) { 
+/* GET Settings page. */
+router.get('/', checkAuthenticated, function(req, res, next) { 
     res.render('settings', { title: 'Settings' });
-    }
-);
+});
 
 module.exports = router;

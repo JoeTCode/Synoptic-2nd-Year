@@ -1,17 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const { checkAuthenticated } = require('../passport-config');
 
 
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    return res.redirect('/login');
-}
 router.get('/', checkAuthenticated, function(req, res, next) { 
-    res.render('index', { title: 'Express', name: req.user.username });
-
-    }
-);
+    res.render('index', { title: 'Home', name: req.user.username });
+});
 
 module.exports = router;

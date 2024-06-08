@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
+const { checkAuthenticated } = require('../passport-config');
 
-/* GET weather page. */
-router.get('/', function(req, res, next) { 
-    res.render('weather', { title: 'Weather Forecast' });
-    }
-);
-
+/* GET Weather page. */
+router.get('/', checkAuthenticated, function(req, res, next) { 
+    res.render('weather', { title: 'Weather' });
+});
 module.exports = router;
