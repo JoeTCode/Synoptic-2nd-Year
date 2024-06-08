@@ -32,7 +32,7 @@ nav ul li a:hover {
   background-color: #111;
 }
 
-/* Centering and styling the login box */
+/* Login box content */
 body.login-page {
   display: flex;
   justify-content: center;
@@ -42,28 +42,30 @@ body.login-page {
   font-family: Arial, sans-serif;
   background-color: #7D886E;
 }
-
+/* Login box */
 .login-box {
   background-color: #A17356;
-  padding: 20px 30px; /* Added more padding to prevent touching sides */
+  padding: 20px 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 300px;
   text-align: center;
 }
 
+/*Login title styling*/
 .login-box h2 {
   color: #7E3C24;
   margin-bottom: 20px;
 }
 
+/*Login button styling*/
 .login-box .login-form input {
-  width: calc(100% - 22px); /* Added to account for padding */
+  width: calc(100% - 22px);
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #465A3D;
   border-radius: 5px;
-  box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
+  box-sizing: border-box;
 }
 
 .login-box .button {
@@ -73,19 +75,20 @@ body.login-page {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  width: auto; /* Change width to auto */
-  padding-left: 20px; /* Add some padding to the sides */
+  width: auto;
+  padding-left: 20px;
   padding-right: 20px;
-  margin-top: 10px; /* Add some margin to the top */
+  margin-top: 10px;
   display: inline-block;
   text-decoration: none;
-  font-size: 14px; /* Ensure consistent font size */
+  font-size: 14px;
 }
 
 .login-box .button:hover {
   background-color: #7E3C24;
 }
 
+/*Signup button styling*/
 .login-box .signup {
   display: block;
   margin-top: 15px;
