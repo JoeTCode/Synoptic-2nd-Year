@@ -1,5 +1,11 @@
 # SYNOPTIC-2ND-YEAR-PROJECT
 
+Docker commands:
+
+'docker compose down' - decomposes containers
+'docker compose down -v' - decomposes containers and deletes persistant database data (Do this after making/receiving changes to the database folder)
+'docker compose up --build' - builds containers
+
 # LOGIN:
 
 # username is 'admin1', password is 'pass'
