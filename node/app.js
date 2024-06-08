@@ -4,6 +4,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
+const { passport } = require('./passport-config');
 
 
 const { Pool } = require('pg');
@@ -22,7 +24,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const passport = require('passport');
 // Define your routes here
 // For example:
 // var indexRouter = require('./routes/index');
@@ -31,14 +32,14 @@ const passport = require('passport');
 // app.use('/test', testRouter);
 
 
-const session = require('express-session');
+// Session setup
 app.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: false
-}))
-app.use(passport.authenticate('session'));
+}));
 app.use(passport.initialize());
+app.use(passport.session());
 
 
 

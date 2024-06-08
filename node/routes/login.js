@@ -1,19 +1,10 @@
 var express = require('express');
 var router = express.Router();
-require('../passport-config');
-const passport = require('passport');
-
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect('/')
-    }
-    return next();
-}
+const { passport, checkNotAuthenticated } = require('../passport-config');
 
 router.get('/', checkNotAuthenticated, function(req, res, next) { 
-    res.render('login', { title: 'Express' });
-    }
-);
+    res.render('login', { title: 'Login' });
+});
 
 router.post('/', passport.authenticate('local', {
     successRedirect: '/',
