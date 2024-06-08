@@ -1,7 +1,9 @@
+# Setting up node and postgres containers
 version: "3"
 services:
+  # Node container
   node:
-    container_name: pms-node
+    container_name: synoptic-node
     build: node/
     volumes:
       - ./node:/node
@@ -13,16 +15,18 @@ services:
     command: sh -c "npm install && npm run start.dev"
     depends_on:
       - db
+  # Postgres container
   db:
-    container_name: pms-db
+    container_name: synoptic-db
     image: postgres
     restart: always
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: pms
+      POSTGRES_DB: synoptic
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+    # Persisting data
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./database:/docker-entrypoint-initdb.d/

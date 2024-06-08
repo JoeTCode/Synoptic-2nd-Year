@@ -1,13 +1,16 @@
+// Requires
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const { Client } = require('pg');
+
+const { Pool } = require('pg');
 const db1 = require('./database.js');
 
-var app = express(); // Initialize the Express application
+// Initialize the Express application
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,9 +26,10 @@ const passport = require('passport');
 // Define your routes here
 // For example:
 // var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+// var testRouter = require('./routes/test');
 // app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+// app.use('/test', testRouter);
+
 
 const session = require('express-session');
 app.use(session({
@@ -42,11 +46,24 @@ var indexRouter = require('./routes/index');
 var testRouter = require('./routes/test');
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
+var alertsRouter = require('./routes/alerts');
+var manageUsersRouter = require('./routes/manageUsers');
+var sendMessageRouter = require('./routes/sendMessage');
+var settingsRouter = require('./routes/settings');
+var weatherRouter = require('./routes/weather');
 
+// Use the routes
 app.use('/', indexRouter);
 app.use('/test', testRouter);
+
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
+app.use('/alerts', alertsRouter);
+app.use('/manage-users', manageUsersRouter);
+app.use('/send-message', sendMessageRouter);
+app.use('/settings', settingsRouter);
+app.use('/weather', weatherRouter);
+
 
 app.post('/logout', (req, res) => {
   req.logout(function(err) {
@@ -55,18 +72,19 @@ app.post('/logout', (req, res) => {
   });
 });
 
-// catch 404 and forward to error handler
+
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // Set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Render the error page
   res.status(err.status || 500);
   res.render('error');
 });
