@@ -22,9 +22,10 @@ router.get('/', function(req, res, next) {
 router.post('/', checkNotAuthenticated, async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
+    const phone_number = req.body.phone;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    if (!username || !hashedPassword) {
+    if (!username || !hashedPassword || !phone_number) {
         return  res.render('signup', { nullError: 'Please fill in all fields' });
     }
     try {
@@ -33,8 +34,13 @@ router.post('/', checkNotAuthenticated, async (req, res, next) => {
         console.log(username, hashedPassword, password);
         res.redirect('login');
     } catch (err) {
-        console.error(err);
-        next(err);
+        if (err.code === '23505') { // PostgreSQL error code for unique violation
+            console.error('Non-unique value error:', err.message);
+            res.render('signup', { duplicateError: 'Please enter unique username and email' })
+        } else {
+            console.error(err);
+            next(err);
+        }
     }
 })
 module.exports = router;

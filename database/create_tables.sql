@@ -4,6 +4,13 @@ CREATE TABLE IF NOT EXISTS test (
 );
 CREATE TABLE IF NOT EXISTS admins (
     admin_id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    password VARCHAR(100)
+    name VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) UNIQUE NOT NULL
 );
+CREATE TABLE IF NOT EXISTS users (
+    uid SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) UNIQUE NOT NULL,
+    location VARCHAR(255)
+)
