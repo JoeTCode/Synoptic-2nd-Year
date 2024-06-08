@@ -31,8 +31,9 @@ nav ul li a img {
 nav ul li a:hover {
   background-color: #111;
 }
+
 /* Centering and styling the login box */
-body {
+body.login-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,7 +66,7 @@ body {
   box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
 }
 
-.button {
+.login-box .button {
   background-color: #465A3D;
   color: white;
   border: none;
@@ -81,7 +82,7 @@ body {
   font-size: 14px; /* Ensure consistent font size */
 }
 
-.button:hover {
+.login-box .button:hover {
   background-color: #7E3C24;
 }
 
