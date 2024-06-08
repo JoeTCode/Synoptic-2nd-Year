@@ -50,5 +50,3 @@ async function getWeatherData() {
         console.error("Error fetching weather data:", error);
     }
 }
-
-getWeatherData();
