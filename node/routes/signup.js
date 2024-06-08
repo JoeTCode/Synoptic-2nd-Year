@@ -4,6 +4,14 @@ var bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const pool = require('../database');
 
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/')
+    }
+    return next();
+}
+
+
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', function(req, res, next) { 
@@ -11,7 +19,7 @@ router.get('/', function(req, res, next) {
     }
 );
 
-router.post('/', async (req, res, next) => {
+router.post('/', checkNotAuthenticated, async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);

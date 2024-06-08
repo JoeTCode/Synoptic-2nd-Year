@@ -3,7 +3,14 @@ var router = express.Router();
 require('../passport-config');
 const passport = require('passport');
 
-router.get('/', function(req, res, next) { 
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('/')
+    }
+    return next();
+}
+
+router.get('/', checkNotAuthenticated, function(req, res, next) { 
     res.render('login', { title: 'Express' });
     }
 );

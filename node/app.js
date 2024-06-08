@@ -48,6 +48,13 @@ app.use('/test', testRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 
+app.post('/logout', (req, res) => {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/login');
+  });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
