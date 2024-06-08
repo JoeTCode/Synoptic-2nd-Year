@@ -1,2 +1,13 @@
 INSERT INTO test (name) VALUES ('Test Data 1'), ('Test Data 2');
 INSERT INTO test (name) VALUES ('user1'), ('user2');
+INSERT INTO users (name, phone_number, location) VALUES ('Pang Sotear', '+855 22 324 3945', 'Place 1');
+INSERT INTO users (name, phone_number, location) VALUES ('Sen Rath', '+855 22 324 3429', 'Place 2');
+INSERT INTO users (name, phone_number, location) VALUES ('Aang Sros', '+855 22 324 3415', 'Place 3');
+INSERT INTO users (name, phone_number, location) VALUES ('Um Sopath', '+855 22 324 3025', 'Place 4');
+INSERT INTO users (name, phone_number, location) VALUES ('Chea Kunthea', '+855 22 324 3935', 'Place 5');
+INSERT INTO users (name, phone_number, location) VALUES ('Nourn Chhaya', '+855 22 324 3900', 'Place 6');
+INSERT INTO users (name, phone_number, location) VALUES ('Eam Somnang', '+855 22 324 3800', 'Place 7');
+INSERT INTO users (name, phone_number, location) VALUES ('Loun Akara', '+855 22 324 3140', 'Place 8');
+INSERT INTO users (name, phone_number, location) VALUES ('Saluk Poeu', '+855 22 324 3451', 'Place 9');
+INSERT INTO users (name, phone_number, location) VALUES ('Khai Sothiya', '+855 22 324 2144', 'Place 10');
+INSERT INTO users (name, phone_number, location) VALUES ('Uch Anchaly', '+855 22 324 3047', 'Place 11');
