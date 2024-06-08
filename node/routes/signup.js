@@ -29,7 +29,7 @@ router.post('/', checkNotAuthenticated, async (req, res, next) => {
         return  res.render('signup', { nullError: 'Please fill in all fields' });
     }
     try {
-        await pool.query('INSERT INTO admins (name, password) VALUES ($1, $2)', [username, hashedPassword]);
+        await pool.query('INSERT INTO admins (name, password, phone_number) VALUES ($1, $2, $3)', [username, hashedPassword, phone_number]);
         console.log("User successfully registered");
         console.log(username, hashedPassword, password);
         res.redirect('login');
