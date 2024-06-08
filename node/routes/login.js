@@ -17,15 +17,6 @@ router.get('/', checkNotAuthenticated, async function(req, res, next) {
             console.log('');
         }
     }
-    try {
-        const res = await pool.query('SELECT * FROM admins');
-        console.log(res.rows);
-    } catch (err) {
-        if (err.code === '23505') {
-            console.log('');
-        }
-    }
-    
     res.render('login', { title: 'Login' });
     }
 );
