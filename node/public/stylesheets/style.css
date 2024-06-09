@@ -1,3 +1,16 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  background-color: #7D886E;
+  color: #465A3D;
+}
+
 nav {
   background-color: #7E3C24;
   overflow: hidden;
@@ -32,15 +45,41 @@ nav ul li a:hover {
   background-color: #A17356;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #7D886E;
-  color: #465A3D;
-  margin: 0;
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  flex: 1;
 }
 
-main {
+.box {
+  background-color: #A17356;
   padding: 20px;
+  border-radius: 10px;
+  width: 45%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.box h2 {
+  margin-top: 0;
+}
+
+.box form label, .box form textarea, .box form select, .box form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.alert {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.alert p {
+  margin: 5px 0;
 }
 
 footer {
@@ -48,9 +87,8 @@ footer {
   color: white;
   text-align: center;
   padding: 10px;
-  position: fixed;
   width: 100%;
-  bottom: 0;
+  position: relative;
 }
 
 .logout-button {
@@ -66,7 +104,6 @@ footer {
   background-color: #7E3C24;
 }
 
-
 /* Login box content */
 body.login-page {
   display: flex;
@@ -77,6 +114,7 @@ body.login-page {
   font-family: Arial, sans-serif;
   background-color: #7D886E;
 }
+
 /* Login box */
 .login-box {
   background-color: #A17356;

@@ -2,15 +2,23 @@ CREATE TABLE IF NOT EXISTS test (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100)
 );
+
 CREATE TABLE IF NOT EXISTS admins (
     admin_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     phone_number VARCHAR(20) UNIQUE NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS users (
     uid SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     phone_number VARCHAR(20) UNIQUE NOT NULL,
     location VARCHAR(255)
-)
+);
+
+CREATE TABLE IF NOT EXISTS currentAlerts (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL,
+    message TEXT NOT NULL
+);
