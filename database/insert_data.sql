@@ -19,3 +19,17 @@ INSERT INTO currentAlerts (created_at, message) VALUES
 (NOW(), 'Water: Test Alert 3'),
 (NOW(), 'Extreme Weather: Test Alert 4'),
 (NOW(), 'Custom: Test Alert 5');
+
+INSERT INTO userAlerts (sent_at, phone_number, full_name, message) VALUES 
+('2023-06-01 12:30:00', '+855 22 324 3945', 'Pang Sotear', 'Emergency alert: Flood warning in Place 1.'),
+('2023-06-01 13:00:00', '+855 22 324 3429', 'Sen Rath', 'Emergency alert: Road blockage in Place 2.'),
+('2023-06-01 14:30:00', '+855 22 324 3415', 'Aang Sros', 'Emergency alert: Fire hazard in Place 3.'),
+('2023-06-01 15:00:00', '+855 22 324 3025', 'Um Sopath', 'Emergency alert: Power outage in Place 4.'),
+('2023-06-01 16:30:00', '+855 22 324 3935', 'Chea Kunthea', 'Emergency alert: Earthquake detected in Place 5.'),
+('2023-06-01 17:00:00', '+855 22 324 3900', 'Nourn Chhaya', 'Emergency alert: Landslide warning in Place 6.'),
+('2023-06-01 18:30:00', '+855 22 324 3800', 'Eam Somnang', 'Emergency alert: Severe weather in Place 7.'),
+('2023-06-01 19:00:00', '+855 22 324 3140', 'Loun Akara', 'Emergency alert: Tsunami warning in Place 8.'),
+('2023-06-01 20:30:00', '+855 22 324 3451', 'Saluk Poeu', 'Emergency alert: Tornado warning in Place 9.'),
+('2023-06-01 21:00:00', '+855 22 324 2144', 'Khai Sothiya', 'Emergency alert: Chemical spill in Place 10.'),
+('2023-06-01 22:30:00', '+855 22 324 3047', 'Uch Anchaly', 'Emergency alert: Gas leak in Place 11.'),
+('2023-06-01 23:00:00', '+447532742960', 'Ruben Abraham', 'Emergency alert: Flood warning in Place 12.');

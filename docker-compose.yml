@@ -30,5 +30,17 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./database:/docker-entrypoint-initdb.d/
+  # ngrok container
+  ngrok:
+    image: wernight/ngrok
+    container_name: ngrok
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+      - NGROK_PORT=node:8080
+    depends_on:
+      - node
+    ports:
+      - "4040:4040"
+
 volumes:
   db-data:

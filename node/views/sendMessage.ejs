@@ -8,39 +8,41 @@
 </head>
 <body>
     <%- include('includes/nav') %>
-    <div class="container">
-        <div class="box">
-            <h2>Create New Message/Alert</h2>
-            <form action="/send-message" method="post" class="form-centered">
-                <div class="form-group">
-                    <label for="alertType">Alert Type:</label>
-                    <select name="alertType" id="alertType" required>
-                        <option value="Road Block">Road Block</option>
-                        <option value="Forest">Forest</option>
-                        <option value="Water">Water</option>
-                        <option value="Extreme Weather">Extreme Weather</option>
-                        <option value="Custom">Custom</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message:</label>
-                    <textarea name="message" id="message" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="button">Send</button>
-            </form>
-        </div>
-        <div class="box">
-            <h2>Current Alerts</h2>
-            <div id="currentAlerts">
-                <% currentAlerts.forEach(alert => { 
-                    let createdAt = new Date(alert.created_at);
-                %>
-                    <div class="alert">
-                        <p><strong>Date:</strong> <%= createdAt.toLocaleDateString() %></p>
-                        <p><strong>Time:</strong> <%= createdAt.toLocaleTimeString() %></p>
-                        <p><strong>Message:</strong> <%= alert.message %></p>
+    <div class="content-with-padding">
+        <div class="container">
+            <div class="box box-left">
+                <h2>Create New Message/Alert</h2>
+                <form action="/send-message" method="post" class="form-centered">
+                    <div class="form-group">
+                        <label for="alertType">Alert Type:</label>
+                        <select name="alertType" id="alertType" required>
+                            <option value="Road Block">Road Block</option>
+                            <option value="Forest">Forest</option>
+                            <option value="Water">Water</option>
+                            <option value="Extreme Weather">Extreme Weather</option>
+                            <option value="Custom">Custom</option>
+                        </select>
                     </div>
-                <% }); %>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea name="message" id="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="button">Send</button>
+                </form>
+            </div>
+            <div class="box box-right">
+                <h2>Current Alerts</h2>
+                <div id="currentAlerts">
+                    <% currentAlerts.forEach(alert => { 
+                        let createdAt = new Date(alert.created_at);
+                    %>
+                        <div class="alert">
+                            <p><strong>Date:</strong> <%= createdAt.toLocaleDateString() %></p>
+                            <p><strong>Time:</strong> <%= createdAt.toLocaleTimeString() %></p>
+                            <p><strong>Message:</strong> <%= alert.message %></p>
+                        </div>
+                    <% }); %>
+                </div>
             </div>
         </div>
     </div>

@@ -8,8 +8,41 @@
 </head>
 <body>
     <%- include('includes/nav') %>
-    <div class="content">
-        Alerts Page
+    <div class="content-with-padding">
+        <h2 class="page-title">Alerts</h2>
+        <div class="container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Phone Number</th>
+                        <th>Full Name</th>
+                        <th>Message</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% alerts.forEach(alert => { %>
+                        <tr>
+                            <td><%= new Date(alert.sent_at).toLocaleString() %></td>
+                            <td><%= alert.phone_number %></td>
+                            <td><%= alert.full_name %></td>
+                            <td><%= alert.message %></td>
+                            <td>
+                                <form action="/alerts/send" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="<%= alert.id %>">
+                                    <button type="submit" class="button action-button">Send</button>
+                                </form>
+                                <form action="/alerts/delete" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="<%= alert.id %>">
+                                    <button type="submit" class="button action-button">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
     </div>
     <%- include('includes/footer') %>
 </body>

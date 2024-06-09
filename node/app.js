@@ -1,4 +1,5 @@
 // Requires
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -52,6 +53,7 @@ var manageUsersRouter = require('./routes/manageUsers');
 var sendMessageRouter = require('./routes/sendMessage');
 var settingsRouter = require('./routes/settings');
 var weatherRouter = require('./routes/weather');
+var twilioRouter = require('./routes/twilio');
 
 // Use the routes
 app.use('/', indexRouter);
@@ -64,7 +66,7 @@ app.use('/manage-users', manageUsersRouter);
 app.use('/send-message', sendMessageRouter);
 app.use('/settings', settingsRouter);
 app.use('/weather', weatherRouter);
-
+app.use('/twilio', twilioRouter);
 
 app.post('/logout', (req, res) => {
   req.logout(function(err) {

@@ -22,3 +22,11 @@ CREATE TABLE IF NOT EXISTS currentAlerts (
     created_at TIMESTAMP NOT NULL,
     message TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS userAlerts (
+    id SERIAL PRIMARY KEY,
+    sent_at TIMESTAMP NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    message TEXT NOT NULL
+);
