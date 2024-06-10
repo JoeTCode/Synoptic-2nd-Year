@@ -311,3 +311,125 @@ body.login-page {
 .login-box .signup:hover {
   text-decoration: underline;
 }
+
+/* General Styles for Manage Users Page */
+body.manage-users-page {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #7D886E;
+  color: #465A3D;
+  display: flex;
+  padding-top: 60px; 
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#manage-users-container {
+  width: 80%;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+#manage-users-header {
+  background-color: #7E3C24;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-radius: 8px 8px 0 0;
+}
+
+
+.manage-users-box-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.manage-users-box {
+  background-color: #A17356;
+  padding: 20px;
+  border-radius: 10px;
+  width: 45%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+}
+
+.manage-users-box h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #fff;
+}
+
+.manage-users-form-container label,
+.manage-users-list-container label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.manage-users-form-container input[type="text"],
+.manage-users-form-container input[type="password"],
+.manage-users-form-container button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.manage-users-form-container button {
+  background-color: #465A3D;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.manage-users-form-container button:hover {
+  background-color: #7E3C24;
+}
+
+.manage-users-list-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.manage-users-list-container li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+.manage-users-list-container li:last-child {
+  border-bottom: none;
+}
+
+.manage-users-list-container .delete-form {
+  display: inline;
+}
+
+.manage-users-list-container .delete-button {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.manage-users-list-container .delete-button:hover {
+  background-color: #c9302c;
+}
