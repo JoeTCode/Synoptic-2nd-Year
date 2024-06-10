@@ -18,7 +18,7 @@ async function addUser(req, res) {
     const { name, phone_number, location } = req.body;
     try {
         await pool.query(
-            'INSERT INTO users (name, phone_number, location, password) VALUES ($1, $2, $3, $4)', 
+            'INSERT INTO users (name, phone_number, location) VALUES ($1, $2, $3)', 
             [name, phone_number, location ]
         );
         res.redirect('/manage-users');
