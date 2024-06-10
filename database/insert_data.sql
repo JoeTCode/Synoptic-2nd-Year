@@ -31,5 +31,4 @@ INSERT INTO userAlerts (sent_at, phone_number, full_name, message) VALUES
 ('2023-06-01 19:00:00', '+855 22 324 3140', 'Loun Akara', 'Emergency alert: Tsunami warning in Place 8.'),
 ('2023-06-01 20:30:00', '+855 22 324 3451', 'Saluk Poeu', 'Emergency alert: Tornado warning in Place 9.'),
 ('2023-06-01 21:00:00', '+855 22 324 2144', 'Khai Sothiya', 'Emergency alert: Chemical spill in Place 10.'),
-('2023-06-01 22:30:00', '+855 22 324 3047', 'Uch Anchaly', 'Emergency alert: Gas leak in Place 11.'),
-('2023-06-01 23:00:00', '+447532742960', 'Ruben Abraham', 'Emergency alert: Flood warning in Place 12.');
+('2023-06-01 22:30:00', '+855 22 324 3047', 'Uch Anchaly', 'Emergency alert: Gas leak in Place 11.');
