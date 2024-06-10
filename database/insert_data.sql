@@ -12,6 +12,8 @@ INSERT INTO users (name, phone_number, location) VALUES
 ('Saluk Poeu', '+855 22 324 3451', 'Place 9'),
 ('Khai Sothiya', '+855 22 324 2144', 'Place 10'),
 ('Uch Anchaly', '+855 22 324 3047', 'Place 11');
+-- ('Joe', '+447703211993', 'Place 11'),
+-- ('Ruben', '+447532742960', 'Place 12');
 
 INSERT INTO currentAlerts (created_at, message) VALUES 
 (NOW(), 'Road Block: Test Alert 1'),
