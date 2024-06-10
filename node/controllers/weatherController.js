@@ -1,5 +1,5 @@
-const {fetchWeatherApi} = require('openmeteo');
-
+const { fetchWeatherApi } = require('openmeteo');
+const { sendMessage } = require('./messageController');
 const params = {
     "latitude": 12.57633758416416,
     "longitude": 106.93316285065214,
@@ -137,14 +137,36 @@ async function produceFloodWarningMessage() {
     }
     // log statement for test purposes
     console.log(array);
-    // selects the first and last value of each discharge peak, and formats the values into a message string
+    // selects the first and last value of each discharge peak
+    flood_warnings = [];
     array.forEach(discharge_peak => {
         const discharge_peak_object = discharge_peak[0];
         const start_date = discharge_peak_object.date;
         const end_date = discharge_peak[discharge_peak.length-1].date;
-        console.log(`Warning, high chance of flood on: ${start_date} to: ${end_date}`);
+        //flood_warnings.push(`Warning, high chance of flood on: ${start_date} to: ${end_date}`);
+        flood_warnings.push([start_date, end_date]);
     })
+    return flood_warnings;
 }
+produceFloodWarningMessage().then(flood_warnings => {
+    // for demonstration purposes, set override to true when you want to see the results of the
+    // function. (it will disregard the dates of the flood risks, and send all flood risk data)
+    const override = false; 
+    const now = new Date().toISOString().split('T')[0];
+    flood_warnings.forEach(warning => {
+        let start = warning[0].toISOString().split('T')[0];
 
-produceFloodWarningMessage();
+        let start_split = warning[0].toString().split(' ');
+        let end_split = warning[1].toString().split(' ');
+        let formattedStart = [start_split[0], start_split[1], start_split[2]].join(' ');
+        let formattedEnd = [end_split[0], end_split[1], end_split[2]].join(' ');
+
+        if (start === now || override) {
+            sendMessage('Flood Warning', `High chance of flood on: ${formattedStart} to: ${formattedEnd}`)
+        }
+    })
+})
+
+
+
 
