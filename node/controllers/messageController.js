@@ -31,6 +31,25 @@ async function sendMessage(alertType, message) {
     }
 }
 
+async function sendForecastMessage(forecastMessage) {
+    const fullMessage = `Forecast: ${forecastMessage}`;
+    try {
+        // Send SMS to all users
+        const users = await pool.query('SELECT phone_number FROM users');
+        users.rows.forEach(user => {
+            client.messages.create({
+                body: fullMessage,
+                from: twilioPhoneNumber,
+                to: user.phone_number
+            }).then(message => console.log(message.sid))
+              .catch(error => console.error(error));
+        });
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to send forecast message.');
+    }
+}
+
 async function getCurrentAlerts() {
     try {
         const alerts = await pool.query('SELECT * FROM currentAlerts ORDER BY created_at DESC LIMIT 5');
