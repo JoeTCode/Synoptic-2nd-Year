@@ -12,5 +12,32 @@
         Manage Users Page
     </div>
     <%- include('includes/footer') %>
+    <h1>Manage Users</h1>
+    
+    <h2>Add User</h2>
+    <form action="/manage-users/add" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required><br>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required><br>
+        <button type="submit">Add User</button>
+    </form>
+
+    <h2>Current Users</h2>
+    <ul>
+        <% users.forEach(function(user) { %>
+            <li>
+                <%= user.name %> - <%= user.phone_number %> - <%= user.location %>
+                <form action="/manage-users/delete" method="POST" style="display:inline;">
+                    <input type="hidden" name="uid" value="<%= user.uid %>">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+
+    
 </body>
 </html>
