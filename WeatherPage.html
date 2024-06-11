@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Weather Forecast</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #forecast {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .day-forecast {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 150px;
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .day-forecast:hover {
+            transform: translateY(-10px);
+        }
+
+        .day-forecast h3 {
+            font-size: 1rem;
+            margin: 0 0 10px;
+        }
+
+        .day-forecast img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .day-forecast p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        #error {
+            color: red;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            input[type="text"] {
+                width: 80%;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .setting-option {
+            margin-bottom: 20px;
+        }
+
+        .setting-option label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .setting-option select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #f4f4f9;
+        }
+
+        body.dark-mode header {
+            background-color: #222;
+        }
+
+        body.protanopia {
+            filter: url('protanopia.svg#protanopia');
+        }
+
+        body.deuteranopia {
+            filter: url('deuteranopia.svg#deuteranopia');
+        }
+
+        body.tritanopia {
+            filter: url('tritanopia.svg#tritanopia');
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Weekly Weather Forecast</h1>
+        <button id="settingsButton">Settings</button>
+    </header>
+    <form id="weatherForm">
+        <input type="text" id="city" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="forecast"></div>
+    <div id="error"></div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Settings</h2>
+            <div class="setting-option">
+                <label for="theme">Theme:</label>
+                <select id="theme">
+                    <option value="light">Light Mode</option>
+                    <option value="dark">Dark Mode</option>
+                </select>
+            </div>
+            <div class="setting-option">
+                <label for="colorBlindMode">Color Blind Mode:</label>
+                <select id="colorBlindMode">
+                    <option value="none">None</option>
+                    <option value="protanopia">Protanopia</option>
+                    <option value="deuteranopia">Deuteranopia</option>
+                    <option value="tritanopia">Tritanopia</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('settingsButton').addEventListener('click', function() {
+            document.getElementById('settingsModal').style.display = 'block';
+        });
+
+        document.getElementsByClassName('close')[0].addEventListener('click', function() {
+            document.getElementById('settingsModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('settingsModal')) {
+                document.getElementById('settingsModal').style.display = 'none';
+            }
+        });
+
+        document.getElementById('theme').addEventListener('change', function() {
+            if (this.value === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        });
+
+        document.getElementById('colorBlindMode').addEventListener('change', function() {
+            document.body.classList.remove('protanopia', 'deuteranopia', 'tritanopia');
+            if (this.value !== 'none') {
+                document.body.classList.add(this.value);
+            }
+        });
+
+        document.getElementById('weatherForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const city = document.getElementById('city').value;
+            const apiKey = 'b082950322711563d18cbf40f661c983ad39a5812f48a5682abda473edb60e8e'; // Replace with your actual API key
+            const url = `https://api.ambeedata.com/weather/forecast/daily?city=${city}&days=7`;
+
+            fetch(url, {
+                headers: {
+                    'x-api-key': apiKey,
+                    'Content-type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.data) {
+                        const forecastData = data.data.forecast.map(day => `
+                            <div class="day-forecast">
+                                <h3>${new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })}</h3>
+                                <img src="placeholder.png" alt="${day.weather}">
+                                <p>Temp: ${day.temperature.max}°C / ${day.temperature.min}°C</p>
+                                <p>${day.weather}</p>
+                            </div>
+                        `).join('');
+                        document.getElementById('forecast').innerHTML = forecastData;
+                        document.getElementById('error').innerHTML = '';
+                    } else {
+                        document.getElementById('error').innerHTML = 'City not found. Please try again.';
+                        document.getElementById('forecast').innerHTML = '';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('error').innerHTML = 'An error occurred. Please try again.';
+                    document.getElementById('forecast').innerHTML = '';
+                });
+        });
+    </script>
+</body>
+</html>
