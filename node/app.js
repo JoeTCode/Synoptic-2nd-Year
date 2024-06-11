@@ -67,6 +67,9 @@ app.use('/send-message', sendMessageRouter);
 app.use('/settings', settingsRouter);
 app.use('/weather', weatherRouter);
 app.use('/twilio', twilioRouter);
+app.get('/weather-test', (req, res) => {
+  res.render('WeatherPage');
+})
 
 app.post('/logout', (req, res) => {
   req.logout(function(err) {
