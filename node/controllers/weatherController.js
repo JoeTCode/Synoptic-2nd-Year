@@ -3,7 +3,7 @@ const { sendMessage } = require('./messageController');
 const params = {
     "latitude": 12.57633758416416,
     "longitude": 106.93316285065214,
-    "hourly": "temperature_2m",
+    "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_sum", "precipitation_hours"],
     "timezone": "auto"
 };
 
@@ -27,32 +27,52 @@ async function getWeatherData() {
         const latitude = response.latitude();
         const longitude = response.longitude();
 
-        const hourly = response.hourly();
+        const daily = response.daily();
 
         // Note: The order of weather variables in the URL query and the indices below need to match!
         const weatherData = {
-            hourly: {
-                time: range(Number(hourly.time()), Number(hourly.timeEnd()), hourly.interval()).map(
+            daily: {
+                time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
                     (t) => new Date((t + utcOffsetSeconds) * 1000)
                 ),
-                temperature2m: hourly.variables(0).valuesArray(),
+                weatherCode: daily.variables(0).valuesArray(),
+                temperature2mMax: daily.variables(1).valuesArray(),
+                temperature2mMin: daily.variables(2).valuesArray(),
+                precipitationSum: daily.variables(3).valuesArray(),
+                precipitationHours: daily.variables(4).valuesArray(),
             },
         };
 
         // `weatherData` now contains a simple structure with arrays for datetime and weather data
-        console.log('Weather data');
-        for (let i = 0; i < weatherData.hourly.time.length; i++) {
-            console.log(
-                weatherData.hourly.time[i].toISOString(),
-                weatherData.hourly.temperature2m[i]
-            );
+        // console.log('Weather data');
+        // for (let i = 0; i < weatherData.daily.time.length; i++) {
+        //     console.log(
+        //         weatherData.daily.time[i].toISOString(),
+        //         weatherData.daily.weatherCode[i],
+        //         weatherData.daily.temperature2mMax[i],
+        //         weatherData.daily.temperature2mMin[i],
+        //         weatherData.daily.precipitationSum[i],
+        //         weatherData.daily.precipitationHours[i]
+        //     );
+        // }
+        return {
+            'date': weatherData.daily.time,
+            'code': weatherData.daily.weatherCode,
+            'temp_max': weatherData.daily.temperature2mMax,
+            'temp_min': weatherData.daily.temperature2mMin,
+            'precipitation_sum': weatherData.daily.precipitationSum,
+            'precipitation_hours': weatherData.daily.precipitationHours
         }
     } catch (error) {
         console.error("Error fetching weather data:", error);
     }
 }
 
-//getWeatherData(); // commented out for time being
+//getWeatherData(); 
+
+
+
+
 
 // below is the api code to grab the nearby rivers discharge rate (rate of flow in m/s^3)
 // the latitude and logitude provided matches with Pu Ngaol
@@ -98,10 +118,11 @@ async function getFloodData() {
         // instead of logging all the data in a loop (commented code before catch block),
         // it is returned as an object to be manipulated in the function below this one
         console.log('Flood data');
-        return { date: weatherData.daily.time,
-                discharge: weatherData.daily.riverDischarge,
-                mean_discharge: weatherData.daily.riverDischargeMean
-            }
+        return { 
+            date: weatherData.daily.time,
+            discharge: weatherData.daily.riverDischarge,
+            mean_discharge: weatherData.daily.riverDischargeMean
+        }
 
         // for (let i = 0; i < weatherData.daily.time.length; i++) {
         //     console.log(
@@ -168,5 +189,66 @@ produceFloodWarningMessage().then(flood_warnings => {
 })
 
 
+const hourly_params = {
+	"latitude": 12.57633758416416,
+	"longitude": 106.93316285065214,
+	"hourly": ["temperature_2m", "precipitation_probability", "weather_code"],
+	"forecast_days": 1
+};
+const hourly_url = "https://api.open-meteo.com/v1/forecast";
 
+async function getHourlyWeatherData() {
+    const responses = await fetchWeatherApi(hourly_url, hourly_params);
+    // Helper function to form time ranges
+    const range = (start, stop, step) =>
+            Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
+    // Process first location. Add a for-loop for multiple locations or weather models
+    const response = responses[0];
+
+    // Attributes for timezone and location
+    const utcOffsetSeconds = response.utcOffsetSeconds();
+    const timezone = response.timezone();
+    const timezoneAbbreviation = response.timezoneAbbreviation();
+    const latitude = response.latitude();
+    const longitude = response.longitude();
+
+    const hourly = response.hourly();
+
+    // Note: The order of weather variables in the URL query and the indices below need to match!
+    const weatherData = {
+
+        hourly: {
+            time: range(Number(hourly.time()), Number(hourly.timeEnd()), hourly.interval()).map(
+                (t) => new Date((t + utcOffsetSeconds) * 1000)
+            ),
+            temperature2m: hourly.variables(0).valuesArray(),
+            precipitationProbability: hourly.variables(1).valuesArray(),
+            weatherCode: hourly.variables(2).valuesArray(),
+        },
+
+    };
+
+    // `weatherData` now contains a simple structure with arrays for datetime and weather data
+    // console.log('hourly');
+    // for (let i = 0; i < weatherData.hourly.time.length; i++) {
+    //     console.log(
+    //         weatherData.hourly.time[i].toISOString(),
+    //         weatherData.hourly.temperature2m[i],
+    //         weatherData.hourly.precipitationProbability[i],
+    //         weatherData.hourly.weatherCode[i]
+    //     );
+    // }
+    return {
+        'date': weatherData.hourly.time,
+        'temp': weatherData.hourly.temperature2m,
+        'precipitation_prob': weatherData.hourly.precipitationProbability,
+        'code': weatherData.hourly.weatherCode
+    }
+}
+
+
+module.exports = {
+    getWeatherData,
+    getHourlyWeatherData
+}
 

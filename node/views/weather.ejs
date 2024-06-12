@@ -5,12 +5,197 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/weather.css">
 </head>
 <body>
     <%- include('includes/nav') %>
     <div class="content">
         Weather Page
     </div>
+    <!-- <h2 class="forecastTitle">Your personal forecast for: </h2>
+    <h1 class="forecastTitle2">Pu Ngaol</h1> -->
+    <div id="forecastContainer"></div>
+    <div id="hourlyForecastContainer"></div>
     <%- include('includes/footer') %>
 </body>
+<script>
+    const weatherData = <%- JSON.stringify(weatherData) %>
+    const hourlyWeatherData = <%- JSON.stringify(hourlyWeatherData) %>
+    console.log('weather data', weatherData); 
+    console.log('hourly weather data', hourlyWeatherData);
+
+    const weatherCodes = {
+        0: 'Clear sky',
+        1: 'Mainly clear',
+        2: 'Partly cloudy',
+        3: 'Overcast',
+        45: 'Fog',
+        48: 'Depositing rime fog',
+        51: 'Light Drizzle',
+        53: 'Moderate Drizzle',
+        55: 'Dense Drizzle',
+        56: 'Light Freezing Drizzle',
+        57: 'Dense Freezing Drizzle',
+        61: 'Slight Rain',
+        63: 'Moderate Rain',
+        65: 'Heavy Rain',
+        66: 'Light Freezing Rain',
+        67: 'Heavy Freezing Rain',
+        71: 'Slight Snow fall',
+        73: 'Moderate Snow fall',
+        75: 'Heavy Snow fall',
+        77: 'Snow grains',
+        80: 'Slight Rain showers',
+        81: 'Moderate Rain showers',
+        82: 'Violent Rain showers',
+        85: 'Slight Snow showers',
+        86: 'Heavy Snow showers',
+        95: 'Slight or Moderate Thunderstorm',
+        96: 'Thunderstorm with slight hail',
+        99: 'Thunderstorm with heavy hail'
+    };
+    const weatherCodesToImages = {
+        0: 'Sunny.png',
+        1: 'Cloudy.png',
+        2: 'Cloudy.png',
+        3: 'Overcast.png',
+        45: 'Overcast.png',
+        48: 'Overcast.png',
+        51: 'Drizzle.png',
+        53: 'Drizzle.png',
+        55: 'Drizzle.png',
+        56: 'Drizzle.png',
+        57: 'Drizzle.png',
+        61: 'Rain.png',
+        63: 'Rain.png',
+        65: 'Rain.png',
+        66: 'Rain.png',
+        67: 'Rain.png',
+        71: 'Slight Snow.png',
+        73: 'Heavy Snow.png',
+        75: 'Heavy Snow.png',
+        77: 'Slight Snow.png',
+        80: 'Rain.png',
+        81: 'Rain.png',
+        82: 'Rain.png',
+        85: 'Heavy Snow.png',
+        86: 'Heavy Snow.png',
+        95: 'Thunderstorm.png',
+        96: 'Thunderstorm.png',
+        99: 'Thunderstorm.png'
+    };
+
+
+    function createDateForWeatherCard(d) {
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const day = days[d.getDay()];
+        const date = d.getDate();
+        const suffix = date == 1 ? 'st' : date == 2 ? 'nd' : date == 3 ? 'rd' : 'th'; 
+        return formattedDate = `<span class="day">${day}</span> ${date}${suffix}`;
+    };
+
+    const dateNow = new Date();
+    for (let i = 0; i < weatherData.date.length; i++) { // creating forecast cards
+
+        const forecastCard = document.createElement('div'); // create card div
+        forecastCard.className = 'forecastCard';
+        
+        if (i == 0) {
+            forecastCard.id = 'first';
+        }
+
+        const description = document.createElement('div')
+        description.innerHTML = weatherCodes[weatherData.code[i]];
+        description.className = 'description';
+
+        // creating elements to populate the forecast card
+        const dateObj = new Date(weatherData.date[i]); // create date object to put in function
+        const dateString = createDateForWeatherCard(dateObj); // call function to format date
+        const date = document.createElement('div')
+        date.innerHTML = dateNow.getDate() == dateObj.getDate() ? '<span class="tomorrow">Today</span>' : dateNow.getDate() + 1 == dateObj.getDate() ? '<span class="tomorrow">Tomorrow</span>' : dateString;
+        date.className = 'date';
+
+        const max_temp = document.createElement('div')
+        max_temp.innerHTML = parseInt(weatherData.temp_max[i]) + '°'; // max temperature
+        max_temp.className = 'max_temp';
+
+        const min_temp = document.createElement('div')
+        min_temp.innerHTML = parseInt(weatherData.temp_min[i]) + '°';
+        min_temp.className = 'min_temp';
+
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'imageContainer';
+        const image = document.createElement('img');
+        image.src = '/images/forecastImages/' + weatherCodesToImages[weatherData.code[i]];
+        image.className = 'image';
+        imageContainer.append(image);
+
+        const hr = document.createElement('hr');
+        hr.className = 'hr';
+
+        forecastCard.append(date);
+        forecastCard.append(hr);
+        forecastCard.append(max_temp);
+        forecastCard.append(min_temp);
+        forecastCard.append(description);
+        forecastCard.append(imageContainer);
+
+        document.getElementById('forecastContainer').append(forecastCard);
+    }
+
+    function formatDateForHourlyData(d) {
+        const d_array = d.split('T')[1];
+        time_array = d_array.split(':');
+        const hours = time_array[0];
+        const minutes = time_array[1];
+        return '<span class="hours">' + hours + '</span>' + minutes;
+    }
+
+    for (let i = 0; i < hourlyWeatherData.date.length; i++) {
+        const hourlyCard = document.createElement('div');
+        hourlyCard.className = 'hourlyCard';
+
+        const time = document.createElement('div');
+        time.innerHTML = formatDateForHourlyData(hourlyWeatherData.date[i]);
+        time.className = 'time';
+
+        const description = document.createElement('div');
+        description.innerHTML = weatherCodes[hourlyWeatherData.code[i]];
+        description.className = 'hourly_description';
+
+        const temp = document.createElement('div');
+        temp.innerHTML = parseInt(hourlyWeatherData.temp[i]) + '°';
+        temp.className = 'temp';
+
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'hourly_imageContainer';
+        const image = document.createElement('img');
+        image.src = '/images/forecastImages/' + weatherCodesToImages[hourlyWeatherData.code[i]];
+        image.className = 'hourly_image';
+        imageContainer.append(image);
+
+        const precipitation_prob = document.createElement('div');
+        precipitation_prob.innerHTML = hourlyWeatherData.precipitation_prob[i] + '%';
+        precipitation_prob.className = 'precipitation_prob';
+
+        const precipitation_prob_image_container = document.createElement('div');
+        precipitation_prob_image_container.className = 'precip_prob_image_container';
+        
+        const precipitation_prob_image = document.createElement('img');
+        precipitation_prob_image.src = '/images/forecastImages/water.png';
+        precipitation_prob_image.className = 'precip_prob_image';
+        precipitation_prob_image_container.append(precipitation_prob_image);
+
+        hourlyCard.append(time);
+        hourlyCard.append(temp);
+        hourlyCard.append(imageContainer);
+        hourlyCard.append(description);       
+        hourlyCard.append(precipitation_prob_image_container);
+        hourlyCard.append(precipitation_prob);
+        
+        
+        document.getElementById('hourlyForecastContainer').append(hourlyCard);
+
+    }
+</script>
 </html>
