@@ -24,8 +24,11 @@
 #first {
     height: 105%;
     color: black;
-    background-color: rgb(62, 116, 62);
+    background-color: rgb(78, 112, 61);
     box-shadow: 0px 7px 25px rgba(0, 0, 0, 0.35);
+}
+#first hr {
+    border-color: rgb(179, 179, 12);
 }
 .max_temp {
     position: absolute;
@@ -70,22 +73,34 @@
 .hourlyCard {
     display: inline-block;
     width: 90px;
-    height: 440px;
-    /* margin: 10px; */
+    height: 427px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     text-align: center;
     padding-top: 10px;
     padding-left: 2px;
     padding-right: 2px;
+    text-wrap: wrap;
+    vertical-align: top;
+    position: relative;
 }
 .hourly_image {
     max-height: 80px;
 }
 .precip_prob_image {
     max-height: 30px;
-    margin-top: 190px;
+    position: absolute;
+    top: 350px;
+    left: 33px;
+}
+.precipitation_prob {
+    position: absolute;
+    left: 33px;
+    top: 390px;
 }
 .hours {
+    font-weight: bold;
+}
+.temp {
     font-weight: bold;
 }
