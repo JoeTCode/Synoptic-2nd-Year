@@ -312,7 +312,7 @@ body.login-page {
   text-decoration: underline;
 }
 
-/* General Styles for Manage Users Page */
+
 body.manage-users-page {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -320,7 +320,7 @@ body.manage-users-page {
   background-color: #7D886E;
   color: #465A3D;
   display: flex;
-  padding-top: 60px; 
+  padding-top: 270px; 
   justify-content: center;
   align-items: center;
   height: 100vh;
