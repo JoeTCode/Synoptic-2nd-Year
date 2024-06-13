@@ -23,7 +23,7 @@
     const hourlyWeatherData = <%- JSON.stringify(hourlyWeatherData) %>
     console.log('weather data', weatherData); 
     console.log('hourly weather data', hourlyWeatherData);
-
+    // Weather codes and descriptions
     const weatherCodes = {
         0: 'Clear sky',
         1: 'Mainly clear',
@@ -85,7 +85,7 @@
         99: 'Thunderstorm.png'
     };
 
-
+    //Create general weather forecast for week
     function createDateForWeatherCard(d) {
         const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         const day = days[d.getDay()];
@@ -143,6 +143,7 @@
         document.getElementById('forecastContainer').append(forecastCard);
     }
 
+    //Create hourly weather forecast
     function formatDateForHourlyData(d) {
         const d_array = d.split('T')[1];
         time_array = d_array.split(':');

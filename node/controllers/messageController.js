@@ -52,6 +52,7 @@ async function sendForecastMessage(forecastMessage) {
 
 async function getCurrentAlerts() {
     try {
+        // Get the 5 most recent alerts
         const alerts = await pool.query('SELECT * FROM currentAlerts ORDER BY created_at DESC LIMIT 5');
         return alerts.rows;
     } catch (err) {

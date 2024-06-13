@@ -14,6 +14,7 @@ router.get('/', checkAuthenticated, async function(req, res, next) {
     }
 });
 
+/* POST Send Message page. */
 router.post('/', checkAuthenticated, async function(req, res, next) {
     const { alertType, message } = req.body;
     try {

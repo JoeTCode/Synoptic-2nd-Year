@@ -14,6 +14,7 @@
             <table class="styled-table">
                 <thead>
                     <tr>
+                        <!-- Table Titles -->
                         <th>Time</th>
                         <th>Phone Number</th>
                         <th>Full Name</th>
@@ -24,15 +25,18 @@
                 <tbody>
                     <% alerts.forEach(alert => { %>
                         <tr>
+                            <!-- Table data -->
                             <td><%= new Date(alert.sent_at).toLocaleString() %></td>
                             <td><%= alert.phone_number %></td>
                             <td><%= alert.full_name %></td>
                             <td><%= alert.message %></td>
                             <td>
+                                <!-- Send alert method-->
                                 <form action="/alerts/send" method="post" style="display:inline;">
                                     <input type="hidden" name="id" value="<%= alert.id %>">
                                     <button type="submit" class="button action-button">Send</button>
                                 </form>
+                                <!-- Delete alert method -->
                                 <form action="/alerts/delete" method="post" style="display:inline;">
                                     <input type="hidden" name="id" value="<%= alert.id %>">
                                     <button type="submit" class="button action-button">Delete</button>

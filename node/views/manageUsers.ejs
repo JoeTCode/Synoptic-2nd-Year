@@ -15,8 +15,10 @@
 
         <div class="manage-users-box-container">
             <div class="manage-users-box manage-users-form-container">
+                <!-- Add User Box -->
                 <h2>Add User</h2>
                 <form id="add-user-form" action="/manage-users/add" method="POST" onsubmit="return validatePhoneNumber()">
+                    <!-- Add User form  -->
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
                     <label for="phone_number">Phone Number:</label>
@@ -27,13 +29,15 @@
                 </form>
                 <p id="error-message" style="color: red; display: none;">Phone number must start with a + followed by numbers.</p>
             </div>
-
+            <!-- Manage Users box -->
             <div class="manage-users-box manage-users-list-container">
                 <h2>Current Users</h2>
                 <ul class="manage-users-list">
+                    <!-- Display users -->
                     <% users.forEach(function(user) { %>
                         <li>
                             <span><%= user.name %> - <%= user.phone_number %> - <%= user.location %></span>
+                            <!-- Delete Users method -->
                             <form class="delete-form" action="/manage-users/delete" method="POST">
                                 <input type="hidden" name="uid" value="<%= user.uid %>">
                                 <button class="delete-button" type="submit">Delete</button>

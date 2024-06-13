@@ -12,31 +12,40 @@
         <div class="container">
             <div class="box box-left">
                 <h2>Create New Message/Alert</h2>
+                <!-- Send Message method -->
                 <form action="/send-message" method="post" class="form-centered">
                     <div class="form-group">
                         <label for="alertType">Alert Type:</label>
+                        <!-- Alert Types -->
                         <select name="alertType" id="alertType" required>
+                            <option value="Emergency">Emergency</option>
                             <option value="Road Block">Road Block</option>
                             <option value="Forest">Forest</option>
-                            <option value="Water">Water</option>
+                            <option value="Rain">Rain</option>
+                            <option value="Flood">Flood</option>
                             <option value="Extreme Weather">Extreme Weather</option>
                             <option value="Custom">Custom</option>
                         </select>
                     </div>
                     <div class="form-group">
+                        <!-- Message box -->
                         <label for="message">Message:</label>
                         <textarea name="message" id="message" rows="4" required></textarea>
                     </div>
+                    <!-- Send button -->
                     <button type="submit" class="button">Send</button>
                 </form>
             </div>
+            <!-- Current Alerts -->
             <div class="box box-right">
                 <h2>Current Alerts</h2>
                 <div id="currentAlerts">
+                    <!-- Display current alerts -->
                     <% currentAlerts.forEach(alert => { 
                         let createdAt = new Date(alert.created_at);
                     %>
                         <div class="alert">
+                            <!-- Alerts table -->
                             <p><strong>Date:</strong> <%= createdAt.toLocaleDateString() %></p>
                             <p><strong>Time:</strong> <%= createdAt.toLocaleTimeString() %></p>
                             <p><strong>Message:</strong> <%= alert.message %></p>

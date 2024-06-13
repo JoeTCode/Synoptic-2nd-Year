@@ -23,6 +23,7 @@ router.get('/', checkAuthenticated, async function(req, res, next) {
 router.post('/send', checkAuthenticated, async function(req, res, next) {
     const { id } = req.body;
     try {
+        // Sends the alert to all users
         const alert = await pool.query('SELECT message FROM userAlerts WHERE id = $1', [id]);
         if (alert.rows.length > 0) {
             const message = alert.rows[0].message;

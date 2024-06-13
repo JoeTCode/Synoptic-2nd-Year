@@ -8,6 +8,7 @@ router.post('/webhook', async (req, res) => {
     console.log(req.body);  // Log incoming request for debugging
     const { From, Body } = req.body;
     try {
+        //Receives a message from user and saves it to the database
         const userResult = await pool.query('SELECT name FROM users WHERE phone_number = $1', [From]);
         if (userResult.rows.length > 0) {
             const fullName = userResult.rows[0].name;
