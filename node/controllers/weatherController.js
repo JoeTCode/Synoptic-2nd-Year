@@ -3,6 +3,12 @@ const { sendMessage } = require('./messageController');
 const { sendForecastMessage } = require('./messageController');
 const pool = require('../database');
 
+// for demonstration purposes, set override to true when you want to see the results of the
+// produceFloodWarningMessage function. (it will disregard the dates of the flood risks, and send all flood risk data)
+const override = false; 
+
+// below function is for daily weather data
+
 const params = {
     "latitude": 12.57633758416416,
     "longitude": 106.93316285065214,
@@ -107,20 +113,26 @@ const weatherCodes = {
 async function sendDailyForecast() {
     const data = await getWeatherData();
     const returnObj = await pool.query('SELECT date FROM daily_weather WHERE id = 1');
-    const dateObj = returnObj.rows[0].date;
-    const dateToCompare = dateObj ? new Date(dateObj) : new Date('00-01-1999');
+    const dateObj = returnObj.rows[0];
+    const dateToCompare = dateObj ? new Date(dateObj.date) : new Date('00-01-1999');
     const firstValue = 0;
     const now = new Date();
 
+    // parsing all of todays weather data to be sent via SMS
     const description = weatherCodes[data.code[firstValue]];
     const date = new Date(data.date[firstValue]);
     const precip_sum = data.precipitation_sum[firstValue].toFixed(2);
     const max_temp = parseInt(data.temp_max[firstValue]);
     const min_temp = parseInt(data.temp_min[firstValue]);
  
+    // if the current date stored in the database matches the todays date, exit
+    // this prevents the function from trigerring multiple times a day per page
+    // reload
     if (dateToCompare.getDate() === date.getDate()) {
         return 0;
     }
+
+    // if the dates don't match, send todays forecast, then update the database to store todays date.
     if (dateToCompare.getDate() !== date.getDate()) {
         if (now.getDate() == date.getDate()) {
             const message = `${description}, ${precip_sum}mm of rain, high of ${max_temp}°C, low of: ${min_temp}°C`;
@@ -186,7 +198,7 @@ async function getFloodData() {
 
         // instead of logging all the data in a loop (commented code before catch block),
         // it is returned as an object to be manipulated in the function below this one
-        console.log('Flood data');
+       
         return { 
             date: weatherData.daily.time,
             discharge: weatherData.daily.riverDischarge,
@@ -210,6 +222,7 @@ async function produceFloodWarningMessage() {
     data = await getFloodData();
     let array = []; // holds the total areas of high discharge rates
     let sub_array = []; // holds areas of high river discharge rates
+
     // flood_risk_multiplier determines what is considered a 'high river discharge rate' aka flood risk.
     // 1.5 times multiplier was chosen as an estimation for a flood risk, can be changed if there is a better
     // prediction.
@@ -226,7 +239,7 @@ async function produceFloodWarningMessage() {
         }
     }
     // log statement for test purposes
-    console.log(array);
+    //console.log(array);
     // selects the first and last value of each discharge peak
     flood_warnings = [];
     array.forEach(discharge_peak => {
@@ -239,24 +252,27 @@ async function produceFloodWarningMessage() {
     return flood_warnings;
 }
 produceFloodWarningMessage().then(flood_warnings => {
-    // for demonstration purposes, set override to true when you want to see the results of the
-    // function. (it will disregard the dates of the flood risks, and send all flood risk data)
-    const override = false; 
+    
     const now = new Date().toISOString().split('T')[0];
+    
     flood_warnings.forEach(warning => {
         let start = warning[0].toISOString().split('T')[0];
 
+        // data formatting
         let start_split = warning[0].toString().split(' ');
         let end_split = warning[1].toString().split(' ');
         let formattedStart = [start_split[0], start_split[1], start_split[2]].join(' ');
         let formattedEnd = [end_split[0], end_split[1], end_split[2]].join(' ');
 
         if (start === now || override) {
+            console.log('Flood Warning', `High chance of flood on: ${formattedStart} to: ${formattedEnd}`); // for testing purposes
             sendMessage('Flood Warning', `High chance of flood on: ${formattedStart} to: ${formattedEnd}`)
         }
     })
 })
 
+
+// hourly weather data for a more specific forecast of today
 
 const hourly_params = {
 	"latitude": 12.57633758416416,
