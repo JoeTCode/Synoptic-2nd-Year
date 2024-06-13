@@ -1,5 +1,8 @@
 const { fetchWeatherApi } = require('openmeteo');
 const { sendMessage } = require('./messageController');
+const { sendForecastMessage } = require('./messageController');
+const pool = require('../database');
+
 const params = {
     "latitude": 12.57633758416416,
     "longitude": 106.93316285065214,
@@ -70,8 +73,74 @@ async function getWeatherData() {
 
 //getWeatherData(); 
 
+const weatherCodes = {
+    0: 'Clear sky',
+    1: 'Mainly clear',
+    2: 'Partly cloudy',
+    3: 'Overcast',
+    45: 'Fog',
+    48: 'Depositing rime fog',
+    51: 'Light Drizzle',
+    53: 'Moderate Drizzle',
+    55: 'Dense Drizzle',
+    56: 'Light Freezing Drizzle',
+    57: 'Dense Freezing Drizzle',
+    61: 'Slight Rain',
+    63: 'Moderate Rain',
+    65: 'Heavy Rain',
+    66: 'Light Freezing Rain',
+    67: 'Heavy Freezing Rain',
+    71: 'Slight Snow fall',
+    73: 'Moderate Snow fall',
+    75: 'Heavy Snow fall',
+    77: 'Snow grains',
+    80: 'Slight Rain showers',
+    81: 'Moderate Rain showers',
+    82: 'Violent Rain showers',
+    85: 'Slight Snow showers',
+    86: 'Heavy Snow showers',
+    95: 'Slight or Moderate Thunderstorm',
+    96: 'Thunderstorm with slight hail',
+    99: 'Thunderstorm with heavy hail'
+};
 
+async function sendDailyForecast() {
+    const data = await getWeatherData();
+    const returnObj = await pool.query('SELECT date FROM daily_weather WHERE id = 1');
+    const dateObj = returnObj.rows[0].date;
+    const dateToCompare = dateObj ? new Date(dateObj) : new Date('00-01-1999');
+    const firstValue = 0;
+    const now = new Date();
 
+    const description = weatherCodes[data.code[firstValue]];
+    const date = new Date(data.date[firstValue]);
+    const precip_sum = data.precipitation_sum[firstValue].toFixed(2);
+    const max_temp = parseInt(data.temp_max[firstValue]);
+    const min_temp = parseInt(data.temp_min[firstValue]);
+ 
+    if (dateToCompare.getDate() === date.getDate()) {
+        return 0;
+    }
+    if (dateToCompare.getDate() !== date.getDate()) {
+        if (now.getDate() == date.getDate()) {
+            const message = `${description}, ${precip_sum}mm of rain, high of ${max_temp}°C, low of: ${min_temp}°C`;
+            console.log(message);
+            await pool.query('DELETE FROM daily_weather WHERE id = 1');
+            await pool.query('INSERT INTO daily_weather VALUES(1, $1)', [date.toISOString().split('T')[0]]);
+            sendForecastMessage(message);
+            
+        } else {
+            console.error('Could not find weather data for today');
+            console.log(dateToCompare);
+            console.log(date);
+            console.log(now);
+        }
+    } else {
+        console.log(dateToCompare);
+
+    }
+}
+sendDailyForecast();
 
 
 // below is the api code to grab the nearby rivers discharge rate (rate of flow in m/s^3)

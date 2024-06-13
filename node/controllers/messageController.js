@@ -62,5 +62,6 @@ async function getCurrentAlerts() {
 
 module.exports = {
     sendMessage,
-    getCurrentAlerts
+    getCurrentAlerts,
+    sendForecastMessage
 };

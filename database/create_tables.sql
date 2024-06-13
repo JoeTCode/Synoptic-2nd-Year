@@ -30,3 +30,8 @@ CREATE TABLE IF NOT EXISTS userAlerts (
     full_name VARCHAR(100) NOT NULL,
     message TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS daily_weather (
+    id INT PRIMARY KEY,
+    date DATE
+);
