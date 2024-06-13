@@ -433,3 +433,33 @@ body.manage-users-page {
 .manage-users-list-container .delete-button:hover {
   background-color: #c9302c;
 }
+
+.how-to-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.how-to-item {
+  background-color: #A17356;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  display: flex;
+  align-items: center;
+}
+
+.how-to-image {
+  width: 100px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.how-to-text {
+  color: #fff;
+  font-size: 16px;
+  flex: 1;
+}
