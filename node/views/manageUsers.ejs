@@ -16,15 +16,16 @@
         <div class="manage-users-box-container">
             <div class="manage-users-box manage-users-form-container">
                 <h2>Add User</h2>
-                <form action="/manage-users/add" method="POST">
+                <form id="add-user-form" action="/manage-users/add" method="POST" onsubmit="return validatePhoneNumber()">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
                     <label for="phone_number">Phone Number:</label>
-                    <input type="text" id="phone_number" name="phone_number" required>
+                    <input type="text" id="phone_number" name="phone_number" required pattern="^\+[0-9]+$" title="Phone number must start with a + followed by numbers">
                     <label for="location">Location:</label>
                     <input type="text" id="location" name="location" required>
                     <button type="submit">Add User</button>
                 </form>
+                <p id="error-message" style="color: red; display: none;">Phone number must start with a + followed by numbers.</p>
             </div>
 
             <div class="manage-users-box manage-users-list-container">
@@ -44,5 +45,20 @@
         </div>
     </div>
     <%- include('includes/footer') %>
+    <script>
+        function validatePhoneNumber() {
+            var phoneNumber = document.getElementById('phone_number').value;
+            var pattern = /^\+[0-9]+$/;
+            var errorMessage = document.getElementById('error-message');
+            
+            if (!pattern.test(phoneNumber)) {
+                errorMessage.style.display = 'block';
+                return false;
+            } else {
+                errorMessage.style.display = 'none';
+                return true;
+            }
+        }
+    </script>
 </body>
 </html>
